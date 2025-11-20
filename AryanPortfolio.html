@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ARYAN PORTFOLIO — ARYAN JAIN</title>
+<meta name="description" content="Hire Aryan Jain — Gameplay & Systems Developer. Mechanics-first engineering, multiplayer & AR experience. Contact by copying email/phone." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bgA:#05060a; --bgB:#071226; --accentC:#00c2ff; --accentW:#ff9f43;
+    --panel-bg: rgba(255,255,255,0.02); --panel-border: rgba(255,255,255,0.04); --text:#e6eef6;
+    --muted:#97c9cf;
+  }
+  html,body{height:100%;margin:0;font-family:'Inter',sans-serif;background:linear-gradient(180deg,var(--bgA),var(--bgB));color:var(--text); -webkit-font-smoothing:antialiased;transition:background .35s ease,color .35s ease;}
+  /* --- CRITICAL FIX APPLIED HERE --- */
+  html.light-mode, body.light-mode{
+    --bgA:#f6f8fb; --bgB:#eef6fa; --accentC:#0ea5a0; --accentW:#ff925e;
+    --panel-bg: rgba(6,10,14,0.04); --panel-border: rgba(2,6,12,0.06); --text:#061021;
+    --muted:#5a6b70;
+    /* 1. Ensure full background coverage for both html and body */
+    background:linear-gradient(180deg,var(--bgA),var(--bgB));
+  }
+  /* HUD */
+  .hud{position:fixed; top:14px; left:14px; right:14px; z-index:9999; display:flex; justify-content:space-between; align-items:center; pointer-events:auto;}
+  .logo{display:flex; gap:12px; align-items:center}
+  .logo .badge{width:56px;height:56px;border-radius:12px;background:linear-gradient(90deg,#7f5aff,#00c2ff);display:flex;align-items:center;justify-content:center;color:#041021;font-weight:800;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}
+  .logo .badge img{width:100%;height:100%;object-fit:cover;display:block}
+  .logo .text{line-height:1}
+  .logo .title{font-weight:900}
+  .logo .subtitle{font-size:12px;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center}
+  .btn{padding:8px 12px;border-radius:8px;border:1px solid var(--panel-border);background:transparent;color:var(--text);cursor:pointer;font-weight:700}
+  .lamp{width:40px;height:40px;border-radius:8px;background:linear-gradient(90deg,#ffb980,#ffd9a6);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(0,0,0,0.08);box-shadow:0 8px 22px rgba(0,0,0,0.25)}
+  .cursor{position:fixed;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;mix-blend-mode:screen;box-shadow:0 0 18px rgba(160,230,210,0.28);display:none}
+  .bg-svg{position:fixed;inset:0;z-index:-20;pointer-events:none;opacity:1;transition:opacity .35s ease}
+  
+  /* Additional Light Mode Styles */
+  body.light-mode .panel{ background: linear-gradient(180deg,#ffffff,#f3f8ff); border:1px solid rgba(2,6,12,0.06); box-shadow:none; color:var(--text); }\n  body.light-mode .blackground{ background: linear-gradient(180deg,#ffffff,#f6f9ff); border:1px solid rgba(2,6,12,0.06); box-shadow:none; color:var(--text); }\n  body.light-mode .project{ background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,255,0.8)); border:1px solid rgba(2,6,12,0.06); box-shadow:none; color:var(--text); }\n  body.light-mode .project iframe{ filter:none; }\n  body.light-mode .blackground .title, body.light-mode .blackground .status { color: var(--text); }
+  
+  /* 2. Fix the SVG background being partially visible */
+  .bg-svg{transition:opacity .35s ease, visibility .35s ease;}
+  body.light-mode .bg-svg{opacity:0; visibility: hidden;}
+
+  .particle{position:fixed;width:6px;height:6px;border-radius:999px;background:radial-gradient(circle,var(--text),transparent);pointer-events:none;animation:float 8s infinite ease-in-out;opacity:.15}
+  @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-48px)}100%{transform:translateY(0)}}
+  .container{max-width:1100px;margin:0 auto;padding:82px 20px}
+  h1{font-size:40px;margin:0}
+  h2{font-size:28px;margin-top:56px}
+  .panel{background:var(--panel-bg); padding:16px;border-radius:12px;border:1px solid var(--panel-border);backdrop-filter:blur(6px); color:var(--text); transition:background .3s ease,color .3s ease}
+  .hero-cta{margin-top:18px;display:flex;gap:12px;align-items:center}
+  .cta-hire{background:linear-gradient(90deg,var(--accentW),var(--accentC)); color:#041021; padding:12px 18px; border-radius:12px; font-weight:800; cursor:pointer; border:none}
+  .cta-portfolio{background:transparent;color:var(--text);padding:10px 14px;border-radius:10px;border:1px solid var(--panel-border);cursor:pointer}
+  .tabs{display:flex;gap:10px;margin-top:12px;align-items:center}
+  .tab{padding:8px 14px;border-radius:8px;background:transparent;border:1px solid var(--panel-border);cursor:pointer;color:var(--text);font-weight:700}
+  .tab.active{background:linear-gradient(90deg,#1b3842,#09242a); color:#fff; box-shadow:0 10px 28px rgba(0,0,0,0.6)}
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:16px}
+  .project{border-radius:12px; overflow:hidden;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(6,8,16,0.45)); border:1px solid rgba(255,255,255,0.03); box-shadow:0 12px 28px rgba(0,0,0,0.6)}
+  .project iframe{width:100%;height:200px;border:0}
+  .blackground{margin-top:18px;border-radius:14px;padding:18px;background:linear-gradient(180deg,#000000,#070707);border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 40px rgba(0,0,0,0.9)}
+  .blackground .title{font-weight:900;font-size:20px;color:#fff;display:flex;align-items:center;gap:10px}
+  .blackground .status{color:#ffd9a6;font-weight:800;margin-top:6px}
+  .wip-badge{display:inline-block;padding:6px 8px;border-radius:999px;background:linear-gradient(90deg,#ff7a59,#ffd27a);color:#041021;font-weight:800;font-size:12px;box-shadow:0 6px 18px rgba(255,150,70,0.18);transform-origin:center;}
+  @keyframes pulse {0%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:0.88}100%{transform:scale(1);opacity:1}}
+  .wip-badge.pulse{animation:pulse 1.6s ease-in-out infinite}
+  .skillList{display:flex;flex-direction:column;gap:10px}
+  .skillItem{display:flex;align-items:center;gap:12px}
+  .skillLabel{min-width:220px;font-weight:700;color:var(--text)}
+  .skillBar{background:#08121a;height:10px;border-radius:6px;overflow:hidden;flex:1}
+  .skillBar > div{height:100%;background:linear-gradient(90deg,#00f7ff,#42c5ff)}
+  footer.sitefoot{margin-top:40px;text-align:center;color:var(--muted);padding:20px 0;border-top:1px solid var(--panel-border)}
+  .modal-backdrop{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:99999}
+  .modal{width:90%;max-width:880px;background:#06101a;border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04)}
+  .key-features{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .key-features .feat{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);font-weight:700}
+  .hobbies{margin-top:12px}
+  .hobby-list{margin:8px 0 0 14px;color:var(--muted);line-height:1.6}
+  @media(max-width:720px){h1{font-size:30px}.project iframe{height:160px}}
+</style>
+</head>
+<body id="body">
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<div class="bg-svg" aria-hidden="true">
+  <svg width="100%" height="100%" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" style="display:block">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#031025"/><stop offset="1" stop-color="#071226"/></linearGradient>
+      <radialGradient id="fog" cx="50%" cy="30%" r="60%"><stop offset="0" stop-color="#0b2233" stop-opacity="0.55"/><stop offset="1" stop-color="#071226" stop-opacity="0"/></radialGradient>
+      <filter id="grain"><feTurbulence baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#g1)"/>
+    <g transform="translate(0,120)">
+      <path d="M0,600 C220,420 420,380 800,460 C1220,560 1460,420 1920,580 L1920,1080 L0,1080 Z" fill="#061026" opacity="0.55"></path>
+      <path d="M0,720 C140,560 420,520 780,640 C1100,720 1500,600 1920,760 L1920,1080 L0,1080 Z" fill="#04131a" opacity="0.45"></path>
+    </g>
+    <rect width="100%" height="100%" fill="url(#fog)"/>
+    <rect width="100%" height="100%" fill="none" filter="url(#grain)" opacity="0.02"></rect>
+  </svg>
+</div>
+
+<script>
+  for(let i=0;i<30;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    p.style.left=(Math.random()*100)+'vw';
+    p.style.top=(Math.random()*100)+'vh';
+    p.style.animationDelay=(Math.random()*5)+'s';
+    p.style.opacity=(0.06+Math.random()*0.25);
+    document.body.appendChild(p);
+  }
+</script>
+
+<div class="hud" role="navigation" aria-label="Top HUD">
+  <div class="logo" aria-hidden="false">
+    <div class="badge" title="Profile picture">
+      <img src="/mnt/data/1763613185986.jpg" alt="Aryan Jain profile picture" onerror="this.style.display='none'">
+      <span style="display:block;padding:8px;font-weight:800;color:#041021" aria-hidden="true">AJ</span>
+    </div>
+    <div class="text">
+      <div class="title">ARYAN PORTFOLIO</div>
+      <div class="subtitle">Mechanics-first developer • Multiplayer & AR</div>
+    </div>
+  </div>
+
+  <div class="controls" role="toolbar" aria-label="Controls">
+    <div class="lamp" id="lampBtn" title="Toggle Light Mode & companion flight" role="button" aria-pressed="false">☼</div>
+    <button class="btn" id="toggleSfx" aria-pressed="true">Sfx: On</button>
+    </div>
+</div>
+
+<main class="container" role="main" id="main">
+  <h1>ARYAN JAIN — Game Developer</h1>
+
+  <p style="max-width:760px;color:var(--text);line-height:1.6;margin-top:8px;font-weight:600">
+    I design the invisible systems players fall in love with — the mechanics that feel obvious and the tools teams can rely on. I move fast: prototyping clear interactions, building multiplayer systems that scale, and shipping editor tools that make development predictable. Bring me your messy idea and I'll turn it into gameplay that works, tests, and ships.
+  </p>
+
+  <p style="max-width:760px;color:var(--muted);line-height:1.4;margin-top:8px">
+    Clean code. Fast iteration. Reliable multiplayer. Practical tools. — Ready to join and ship.
+  </p>
+
+  <div class="hero-cta">
+    <button class="cta-hire" id="ctaHire">Hire Me</button>
+    <button class="cta-portfolio" id="ctaPortfolio">View Work</button>
+  </div>
+
+  <h2 id="projects">Projects</h2>
+  <p style="margin-top:8px;color:var(--muted);font-weight:700">Most of these are lightweight gameplay prototypes — quick slices of mechanics I’ve built while exploring bigger systems. They’re just a glimpse of the full work I haven’t released yet.</p>
+
+  <div class="tabs" role="tablist" aria-label="Project tabs">
+    <button class="tab" id="tab-all" aria-selected="false">All Projects</button>
+    <button class="tab active" id="tab-active" aria-selected="true">Active Project</button>
+  </div>
+
+  <div id="activePanel" class="blackground" style="display:block;margin-top:12px">
+    <div class="title">
+      Working on MMORPG — <span style="color:#7ff1e6">Warvox</span>
+      <span class="wip-badge pulse" title="Work in progress">WIP</span>
+    </div>
+    <div class="status">Coming soon on Steam</div>
+    <div style="margin-top:10px;color:var(--text);">
+      Warvox is my current focus — an emergent-world MMORPG prototype with player-driven encounters and procedural regions.
+    </div>
+    <div style="margin-top:12px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px">
+      <iframe src="https://www.youtube.com/embed/goeO0Vu3S7M?rel=0" style="position:absolute;left:0;top:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div id="allPanel" style="margin-top:12px; display:none;">
+    <div class="project-grid">
+      <div class="project"><iframe src="https://player.vimeo.com/video/1090790485" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+      <div class="project"><iframe src="https://player.vimeo.com/video/1090796022" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+      <div class="project"><iframe src="https://player.vimeo.com/video/1076173633" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+      <div class="project"><iframe src="https://player.vimeo.com/video/1064064633" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+      <div class="project"><iframe src="https://player.vimeo.com/video/1043718842" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+    </div>
+  </div>
+
+  <h2 id="why">Why hire me?</h2>
+  <div class="panel" style="margin-top:12px">
+    <p style="margin:0;color:var(--text);line-height:1.5">
+      I focus on what makes a game play well: predictable systems, responsive controls, and multiplayer that keeps players together. I deliver prototypes that validate concepts quickly, clean systems that scale, and editor tools that let teams move faster. Hire me when you need work that ships — and keeps shipping.
+    </p>
+
+    <div class="key-features" aria-hidden="false">
+      <div class="feat">Mechanics-first engineering — iterate quickly, test thoroughly.</div>
+      <div class="feat">Multiplayer experience — practical sync and authoritative logic.</div>
+      <div class="feat">Tooling & systems — editor tools that cut production time.</div>
+    </div>
+  </div>
+
+  <h2 id="experience">Work Experience</h2>
+  <div class="panel" style="margin-top:12px">
+    <h3>Currently working in Carina Softlabs — 6+ Months</h3>
+    <p style="color:var(--text);line-height:1.6;margin-top:8px">
+      Focus: mechanics, multiplayer systems, AR tools and editor workflows. I design and implement robust gameplay logic, prototype fast, and build maintainable systems. I built the **AR Capture EDC Sound app** entirely in Unity — end-to-end (systems, UI, and runtime tools).
+    </p>
+    <p style="color:var(--muted);margin-top:10px">Available for roles: Gameplay Programmer, Systems Designer, Technical Designer, or Senior Prototype Engineer.</p>
+  </div>
+
+  <div class="panel" style="margin-top:12px">
+    <h3 style="margin:0 0 8px">Hobbies</h3>
+    <p style="margin:0;color:var(--text)">I stay sharp and curious outside work:</p>
+    <ul class="hobby-list" style="margin-top:8px;">
+      <li>Exploring narrative-driven games and emerging mechanics.</li>
+      <li>Learning advanced programming techniques in C#.</li>
+      <li>Participating in game jams and community projects.</li>
+    </ul>
+  </div>
+
+  <h2 id="about">About & Education</h2>
+  <div class="panel" style="margin-top:12px">
+    <h3>Profile</h3>
+    <p style="color:var(--text);line-height:1.6">\n      <strong>Name:</strong> Aryan Jain — <strong>Age:</strong> 22<br>\n      <strong>Comfortable relocating:</strong> Yes — available to shift to another city for the right role.<br><br>\n      I’m a mechanics‑first game developer obsessed with building the invisible machinery that makes a game *feel alive* — responsive player behaviours, readable AI logic, interconnected systems, and UI feedback that sells every moment. With experience across multiplayer/MMORPGs, open‑world systems, platformers, and both PC & mobile pipelines, I combine creative design instincts with clean, scalable engineering.\n    </p>\n    <h3 style="margin-top:12px">Experience Snapshot</h3>
+    <p style="color:var(--text);margin:0">Multiplayer / MMORPGs • Open-world systems • Platformers • AR Tools • Tooling & Prototyping</p>
+    <h3 style="margin-top:12px">Education</h3>
+    <p style="color:var(--text)">Bachelor of Game Design, Artemisia Arts College (2021–2025)</p>
+  </div>
+
+  <h2 id="skills">Skills & Tools</h2>
+  <div class="panel" style="margin-top:12px">
+    <div class="skillList">
+      <div class="skillItem"><div class="skillLabel">C#</div><div class="skillBar"><div style="width:90%"></div></div></div>
+      <div class="skillItem"><div class="skillLabel">Unity</div><div class="skillBar"><div style="width:90%"></div></div></div>
+      <div class="skillItem"><div class="skillLabel">Core Competencies: Game Mechanics Design</div><div class="skillBar"><div style="width:88%"></div></div></div>
+      <div class="skillItem"><div class="skillLabel">Good communication</div><div class="skillBar"><div style="width:78%"></div></div></div>
+      <div class="skillItem"><div class="skillLabel">Prototyping</div><div class="skillBar"><div style="width:86%"></div></div></div>
+    </div>
+  </div>
+
+  <h2 id="contact">Contact</h2>
+  <div class="panel" style="margin-top:12px">
+    <p style="color:var(--text)"><strong>Email:</strong> <span id="emailText">aryanjain8096@gmail.com</span></p>
+    <p style="color:var(--text)"><strong>Phone:</strong> <span id="phoneText">+91 8319980918</span></p>
+    <p style="color:var(--text)"><strong>Address:</strong> EWS 20 OHB Colony, Morena</p>
+    <div style="margin-top:10px">
+      <button class="btn" id="copyEmailBtn">Copy Email</button>
+      <button class="btn" id="copyPhoneBtn" style="margin-left:8px">Copy Phone</button>
+    </div>
+  </div>
+
+  <footer class="sitefoot">
+    <div style="font-weight:700">Thanks for visiting — Aryan Jain</div>
+    <div style="font-size:13px;margin-top:6px;color:var(--muted)">Focused on systems, multiplayer & rapid prototyping — ready to ship features that matter.</div>
+  </footer>
+
+  <div style="height:120px"></div>
+</main>
+
+<div id="modalRoot" style="display:none"></div>
+
+<script>
+// I added document.documentElement to the light mode toggling in the script
+(function(){
+  // Refs
+  const cursor = document.getElementById('cursor');
+  const lampBtn = document.getElementById('lampBtn');
+  const toggleSfx = document.getElementById('toggleSfx');
+  const copyEmailBtn = document.getElementById('copyEmailBtn');
+  const copyPhoneBtn = document.getElementById('copyPhoneBtn');
+  const emailText = document.getElementById('emailText').textContent.trim();
+  const phoneText = document.getElementById('phoneText').textContent.trim();
+  const tabAll = document.getElementById('tab-all');
+  const tabActive = document.getElementById('tab-active');
+  const allPanel = document.getElementById('allPanel');
+  const activePanel = document.getElementById('activePanel');
+  const ctaHire = document.getElementById('ctaHire');
+  const ctaPortfolio = document.getElementById('ctaPortfolio');
+  let sfxOn = true;
+
+  // Cursor show for desktop
+  function isMobile(){ return /Mobi|Android/i.test(navigator.userAgent); }
+  if(!isMobile()){
+    cursor.style.display='block';
+    document.addEventListener('mousemove', e=>{
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+  }
+
+  // SFX
+  let audioCtx=null;
+  function ensureAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }
+  function playTone(kind='click'){
+    if(!sfxOn) return;
+    ensureAudio();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    if(kind==='whoosh'){ o.frequency.value=260; g.gain.value=0.03; o.type='sawtooth' }
+    else if(kind==='hover'){ o.frequency.value=900; g.gain.value=0.008; o.type='sine' }
+    else { o.frequency.value=520; g.gain.value=0.03; o.type='triangle' }
+    const t=audioCtx.currentTime; g.gain.setValueAtTime(g.gain.value,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.12); o.start(t); o.stop(t+0.14);
+  }
+
+  // Lamp -> toggle light + orb flight
+  let lightOn = false;
+  lampBtn.addEventListener('click', ()=>{
+    lightOn = !lightOn;
+    // CRITICAL JAVASCRIPT FIX: Apply class to both HTML and BODY
+    document.body.classList.toggle('light-mode', lightOn);
+    document.documentElement.classList.toggle('light-mode', lightOn); 
+    lampBtn.setAttribute('aria-pressed', lightOn ? 'true' : 'false');
+    playTone('whoosh');
+    const orb = document.createElement('div');
+    orb.style.position='fixed'; orb.style.width='16px'; orb.style.height='16px'; orb.style.borderRadius='50%';
+    orb.style.zIndex=9999; orb.style.background='radial-gradient(circle,#ffd9a6,#ff9f43)';
+    document.body.appendChild(orb);
+    const start={x:window.innerWidth*0.12,y:window.innerHeight*0.82};
+    const end={x:window.innerWidth*0.86,y:window.innerHeight*0.14};
+    const dur=900, t0=performance.now();
+    (function step(t){
+      const p=Math.min(1,(t-t0)/dur), e=(--p)*p*p+1;
+      const x=start.x+(end.x-start.x)*e;
+      const y=start.y+(end.y-start.y)*e - Math.sin(e*Math.PI*2)*36;
+      orb.style.left=x+'px'; orb.style.top=y+'px';
+      if(performance.now()-t0 < dur) requestAnimationFrame(step);
+      else orb.remove();
+    })();
+  });
+
+  // Toggle SFX
+  toggleSfx.addEventListener('click', ()=>{
+    sfxOn = !sfxOn;
+    toggleSfx.textContent = sfxOn ? 'Sfx: On' : 'Sfx: Off';
+    if(sfxOn) playTone('click');
+  });
+
+  // copy buttons
+  copyEmailBtn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(emailText).then(()=>{ copyEmailBtn.textContent='Copied ✓'; playTone('click'); setTimeout(()=>copyEmailBtn.textContent='Copy Email',1400); });
+  });
+  copyPhoneBtn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(phoneText).then(()=>{ copyPhoneBtn.textContent='Copied ✓'; playTone('click'); setTimeout(()=>copyPhoneBtn.textContent='Copy Phone',1400); });
+  });
+
+  // Tabs
+  tabAll.addEventListener('click', ()=> setTab('all'));
+  tabActive.addEventListener('click', ()=> setTab('active'));
+  function setTab(which){
+    if(which==='all'){
+      tabAll.classList.add('active'); tabAll.setAttribute('aria-selected','true');
+      tabActive.classList.remove('active'); tabActive.setAttribute('aria-selected','false');
+      allPanel.style.display='block'; activePanel.style.display='none';
+    } else {
+      tabActive.classList.add('active'); tabActive.setAttribute('aria-selected','true');
+      tabAll.classList.remove('active'); tabAll.setAttribute('aria-selected','false');
+      allPanel.style.display='none'; activePanel.style.display='block';
+    }
+    playTone('click');
+  }
+  setTab('active');
+
+  // project click modal
+  document.querySelectorAll('.project').forEach(p=>{
+    p.addEventListener('click', (e)=>{
+      if(e.target.tagName.toLowerCase()==='a') return;
+      const ifr = p.querySelector('iframe'); if(!ifr) return;
+      const src = ifr.src;
+      showModal(`<div style="color:#e6eef6;"><div style="background:#000;border-radius:8px;overflow:hidden"><iframe src="${src}" style="width:100%;height:480px;border:0" allow="autoplay; fullscreen"></iframe></div></div>`);
+      playTone('click');
+    });
+  });
+
+  // CTA Hire copies contact but DOES NOT open modal; subtle UI change instead
+  const heroHire = document.getElementById('ctaHire');
+  heroHire.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(`${emailText} | ${phoneText}`).then(()=>{
+      heroHire.textContent='Contact Copied ✓';
+      playTone('click');
+      setTimeout(()=> heroHire.textContent='Hire Me',1800);
+    }).catch(()=>{
+      document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  const ctaPortfolioBtn = document.getElementById('ctaPortfolio');
+  ctaPortfolioBtn.addEventListener('click', ()=>{
+    document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+    playTone('click');
+  });
+
+  // modal helper
+  function showModal(html){
+    const back = document.createElement('div'); back.className='modal-backdrop';
+    const box = document.createElement('div'); box.className='modal';
+    box.innerHTML = html;
+    const foot = document.createElement('div'); foot.style.textAlign='right'; foot.style.marginTop='8px';
+    const close = document.createElement('button'); close.textContent='Close'; close.style.cursor='pointer'; close.style.padding='8px 10px'; close.style.borderRadius='8px';
+    close.addEventListener('click', ()=> back.remove());
+    foot.appendChild(close); box.appendChild(foot); back.appendChild(box); document.body.appendChild(back);
+    back.addEventListener('click', (e)=>{ if(e.target===back) back.remove(); });
+  }
+})();
+</script>
+</body>
+</html>
